@@ -9,8 +9,6 @@ permissions:
   contents: read
   pages: write
   id-token: write
-  actions: write
-  deployments: write
 
 concurrency:
   group: "pages"
@@ -44,66 +42,3 @@ jobs:
           curl --fail --location --proto '=https' --proto-redir '=https' --retry 6 --retry-all-errors --retry-delay 5 --max-time 20 "$url" -o /tmp/privacy.html
           cmp site/sis-login-fix/privacy/index.html /tmp/privacy.html
           printf 'Verified policy: %s\n' "$url"
-      - name: Remove superseded deployment records
-        env:
-          GH_TOKEN: ${{ github.token }}
-          GH_REPO: ${{ github.repository }}
-        run: |
-          python3 - <<'PYCODE'
-          import json, os
-          from urllib.request import Request, urlopen
-          from urllib.error import HTTPError
-          repo = os.environ['GH_REPO']
-          if repo != 'Addenda-Carolina/addenda':
-              raise RuntimeError('Unexpected repository')
-          base = 'https://api.github.com/repos/' + repo
-          headers = {'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28'}
-          def api(path, method='GET', body=None):
-              data = json.dumps(body).encode() if body is not None else None
-              req = Request(base + path, data=data, headers=headers, method=method)
-              try:
-                  with urlopen(req, timeout=30) as response:
-                      raw = response.read()
-                      return response.status, json.loads(raw) if raw else None
-              except HTTPError as error:
-                  if error.code == 404:
-                      return 404, None
-                  raise RuntimeError(f'API operation failed: {method} {path}: HTTP {error.code}') from None
-          runs = (36795395739, 36795521740)
-          revisions = set()
-          for rid in runs:
-              status, run = api(f'/actions/runs/{rid}')
-              if status == 404:
-                  continue
-              if run['head_branch'] != 'main' or run['status'] != 'completed' or run['path'] != '.github/workflows/static.yml':
-                  raise RuntimeError('Unexpected run state')
-              revisions.add(run['head_sha'])
-          deployments = []
-          page = 1
-          while True:
-              status, items = api(f'/deployments?per_page=100&page={page}')
-              if status != 200:
-                  raise RuntimeError('Could not inspect deployment records')
-              deployments.extend(d for d in items if d['sha'] in revisions and d['environment'] == 'github-pages')
-              if len(items) < 100:
-                  break
-              page += 1
-          for deployment in deployments:
-              did = deployment['id']
-              api(f'/deployments/{did}/statuses', 'POST', {'state': 'inactive'})
-              status, _ = api(f'/deployments/{did}', 'DELETE')
-              if status not in (204, 404):
-                  raise RuntimeError('Deployment record deletion failed')
-              status, _ = api(f'/deployments/{did}')
-              if status != 404:
-                  raise RuntimeError('Deployment record still accessible')
-              print(f'Removed superseded deployment record {did}')
-          for rid in runs:
-              status, _ = api(f'/actions/runs/{rid}', 'DELETE')
-              if status not in (204, 404):
-                  raise RuntimeError('Run deletion failed')
-              status, _ = api(f'/actions/runs/{rid}')
-              if status != 404:
-                  raise RuntimeError('Run still accessible')
-              print(f'Removed superseded run {rid}')
-          PYCODE
