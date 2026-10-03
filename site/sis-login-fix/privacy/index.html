@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>SIS Login Fix — Privacy policy</title>
+  <link rel="stylesheet" href="../../styles-0.1.0.css">
+</head>
+<body>
+  <main>
+    <p><a href="../../">Addenda Carolina</a></p>
+    <h1>SIS Login Fix — Privacy policy</h1>
+    <p>Updated <time datetime="2026-10-03">October 3, 2026</time>.</p>
+    <p>This policy covers the SIS Login Fix extension and userscript,
+      maintained by Addenda Carolina.</p>
+
+    <h2>Local data</h2>
+    <p>The extension reads the current SIS, WebApps, or CAS URL and relevant page
+      elements. It checks login/logout controls and stores server-issued session
+      IDs, the SIS <code>tid</code> value, timestamps, and recovery-attempt records
+      in your browser. This lets it reuse a validated session when a SIS link is
+      missing a session or contains one confirmed to have expired.</p>
+    <p>Session records use <code>is.cuni.cz</code> website storage
+      (<code>localStorage</code> and per-tab <code>sessionStorage</code>), not browser
+      sync. The extension does not keep a browsing-history or activity log.</p>
+    <p>On <code>cas.cuni.cz</code>, it adjusts the one-time-code field and its helper
+      UI. It does not read, save, generate, or submit passwords or entered codes.</p>
+
+    <h2>Network requests</h2>
+    <p>No extension data is sent to the maintainer. There are no analytics,
+      telemetry, ads, or remote scripts. Data is not sold or used for unrelated
+      purposes.</p>
+    <p>Session IDs are reused only in HTTPS navigation to <code>is.cuni.cz</code>.
+      Your browser still makes ordinary requests to the university's websites;
+      those requests and the university's handling of them are not controlled by
+      this extension.</p>
+
+    <h2>Retention and removal</h2>
+    <p>Active session records can be reused for up to 12 hours, rejected-session
+      records for up to 24 hours (at most eight per service), and recovery-attempt
+      records for up to 5 minutes. These are reuse limits, not scheduled deletion
+      times: records can remain in website storage until overwritten or cleared.</p>
+    <p>To remove them, disable the extension and any other SIS session-bridge
+      script, then clear site data for <code>is.cuni.cz</code> in your browser.
+      This also removes other SIS site data and may sign you out. Uninstalling
+      the extension alone does not clear website storage.</p>
+
+    <h2>This website and contact</h2>
+    <p>This page has no analytics, forms, or third-party embeds. It is hosted on
+      GitHub Pages; GitHub may process ordinary web-request data under its
+      <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">privacy statement</a>.</p>
+    <p>Questions can be sent through the
+      <a href="https://github.com/Addenda-Carolina/addenda/issues">project's GitHub issues</a>.
+      Issues are public; do not post session URLs, passwords, or one-time codes.</p>
+  </main>
+  <footer>Independent project. Not affiliated with Charles University.</footer>
+</body>
+</html>
