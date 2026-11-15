@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>SIS Login Fix privacy policy</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+  <main>
+    <h1>SIS Login Fix privacy policy</h1>
+    <p>Updated November 15, 2026.</p>
+    <p>SIS Login Fix runs on Charles University SIS (is.cuni.cz/studium/), WebApps (is.cuni.cz/webapps/), and CAS (cas.cuni.cz/cas/). It reads the page URL and the login and logout elements to tell whether you are signed in.</p>
+    <p>To fix sessionless and expired links, it saves session IDs from university URLs, the SIS tid parameter, timestamps, and retry state in is.cuni.cz localStorage and per-tab sessionStorage. None of this is synced by the browser. A per-tab retry entry also keeps the target path and its non-session query parameters, so an unrelated page is not taken for the result of that retry.</p>
+    <p>When it redirects www.is.cuni.cz to is.cuni.cz, it keeps a move count in that tab&#x27;s www.is.cuni.cz sessionStorage to stop redirect loops. The URL is not stored.</p>
+    <p>SIS and WebApps URLs that change something, like course enrollment or deletion, are left alone. The exception is a link you clicked yourself on a signed-in SIS page. Its destination and session ID are kept in is.cuni.cz localStorage for up to 5 minutes, so the action can run once after you sign in again. The entry is removed when the action runs or when you sign out of SIS.</p>
+    <p>On CAS, it changes attributes on the one-time-code field and the helper elements around it, so password managers and phone keyboards treat it as a 2FA code field. It never reads, stores, generates, or submits passwords or one-time codes.</p>
+    <p>Neither the extension nor the userscript sends any data off your device. There are no analytics, telemetry, ads, or remote scripts, and no data is sold or shared. Stored session IDs are only used to open is.cuni.cz pages over HTTPS. Normal requests your browser makes to university servers fall under Charles University&#x27;s own rules.</p>
+    <p>Entries expire after 12 hours for active sessions, 24 hours for rejected session IDs (up to 8 per service), 5 minutes for per-tab retry state, 10 seconds for the www redirect count, and 5 minutes for clicked actions (up to 8). Expired entries are ignored and later overwritten. Nothing deletes them in the background. To clear everything now, disable SIS Login Fix and clear site data for is.cuni.cz in your browser. This also clears other SIS site data and may sign you out. Uninstalling alone does not clear site storage.</p>
+    <p>Issues: <a href="https://github.com/Addenda-Carolina/addenda/issues">https://github.com/Addenda-Carolina/addenda/issues</a> Issues are public. Policy: <a href="https://addenda.rychle.info/sis-login-fix/privacy/">https://addenda.rychle.info/sis-login-fix/privacy/</a></p>
+    <p>Copyright (C) 2026 skrblk. Licensed under GPL-3.0-or-later. Independent project, not affiliated with Charles University.</p>
+  </main>
+  <footer><a href="../../">SIS Login Fix</a> · <a href="https://github.com/Addenda-Carolina/addenda">Source</a> · <a href="../../skrblk.asc">PGP keys</a></footer>
+</body>
+</html>

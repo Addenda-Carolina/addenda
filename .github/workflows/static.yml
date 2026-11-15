@@ -1,0 +1,42 @@
+name: Deploy site
+
+on:
+  push:
+    branches: [main]
+    paths: ['site/**', '.github/workflows/static.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - run: |
+          test -s site/index.html
+          test -s site/sis-login-fix/privacy/index.html
+          test -s site/skrblk.asc
+          test -s site/icon-128.png
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - uses: actions/deploy-pages@v5
+        id: deployment
+      - name: Verify published policy
+        run: |
+          curl --fail --location --proto '=https' --proto-redir '=https' --retry 6 --retry-all-errors --retry-delay 5 --max-time 20 https://addenda.rychle.info/sis-login-fix/privacy/ -o /tmp/privacy.html
+          cmp site/sis-login-fix/privacy/index.html /tmp/privacy.html

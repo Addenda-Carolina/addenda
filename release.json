@@ -1,0 +1,8 @@
+{
+  "name": "SIS Login Fix - Session ID Replacer",
+  "version": "1.0.0",
+  "firefoxId": "@addenda-carolina-session",
+  "firefoxMinimum": "140.0",
+  "firefoxAndroidMinimum": "142.0",
+  "chromeMinimum": "120"
+}

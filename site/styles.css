@@ -1,0 +1,13 @@
+:root { color-scheme: light dark; }
+body { max-width: 44rem; margin: 3rem auto; padding: 0 1.25rem; font: 1rem/1.6 system-ui, -apple-system, sans-serif; }
+header { display: flex; align-items: center; gap: 0.85rem; margin-bottom: 1rem; }
+header img { width: 40px; height: 40px; }
+header h1 { margin: 0; font-size: 1.65rem; }
+h1, h2 { line-height: 1.25; }
+h2 { margin-top: 2rem; font-size: 1.15rem; }
+ul { padding-left: 1.25rem; }
+li { margin: 0.35rem 0; }
+a { text-underline-offset: .15em; }
+a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid rgba(128, 128, 128, 0.25); font-size: .9rem; }
+@media (max-width: 36rem) { body { margin-top: 1.5rem; } }
